@@ -180,7 +180,7 @@ const App = () => {
     }
 
     const handleDataReturned = (data: any) => {
-        const receivedData = JSON.parse(JSON.stringify(data))
+        const receivedData = JSON.parse(JSON.stringify(data));
         console.log("Login info callback data (Inisde dApp)::", receivedData);
     };
 
@@ -193,6 +193,16 @@ const App = () => {
             <PluralitySocialConnect 
                 options={options}                 
                 onDataReturned={handleDataReturned}
+                customization={{
+                    backgroundColor: '#8002FF',
+                    color: 'white',
+                    minWidth: '180px',
+                    height: '50px',
+                    borderRadius: '5',
+                    hoverBackgroundColor: '#00CEBA',
+                    hoverTextColor: 'black',
+                    marginTop: '10px'
+                }}
             />
             <div style={{
                 width: '180px',
