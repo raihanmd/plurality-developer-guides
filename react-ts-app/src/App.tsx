@@ -15,7 +15,7 @@ import {
 const App = () => {
 
     // options for the embedded profiles wallet
-    const options = { clientId: '', theme: 'light' };
+    const options = { clientId: '', theme: 'light', text: 'Login' };
     
     const abi = '[{"inputs":[],"name":"retrieve","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"num","type":"uint256"}],"name":"store","outputs":[],"stateMutability":"nonpayable","type":"function"}]';
     const rawTx = JSON.stringify({
@@ -201,7 +201,9 @@ const App = () => {
                     borderRadius: '5',
                     hoverBackgroundColor: '#00CEBA',
                     hoverTextColor: 'black',
-                    marginTop: '10px'
+                    marginTop: '10px',
+                    fontSize: '20px',
+                    fontFamily: 'cursive',
                 }}
             />
             <div style={{
