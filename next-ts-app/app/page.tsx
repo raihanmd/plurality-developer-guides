@@ -3,8 +3,10 @@
 import React from 'react'
 import { PluralitySocialConnect } from '@plurality-network/smart-profile-wallet'
 import { AllAccountsDataType, ConnectedAccountDataType, SignMessageDataType, VerifySignedMessageDataType } from '@plurality-network/smart-profile-wallet'
+import { useState } from 'react';
+
 const Home = () => {
-    // const [publicInput, setPublicInput] = useState("")
+    const [isLogin, setLogin] = useState(false);
     const options = { clientId: '', theme: 'light' };
 
     const getAllAccountsData = async () => {
@@ -114,6 +116,8 @@ const Home = () => {
     const handleDataReturned = (data) => {
         const receivedData = JSON.parse(JSON.stringify(data))
         console.log("Login info callback data (Inisde dApp)::", receivedData);
+        setLogin( true );
+
     };
 
     // 2nd Page
@@ -187,40 +191,60 @@ const Home = () => {
     return (
 
         <div style={{
-            padding: "10px"
+            paddingLeft: "10px",
         }}>
-            <PluralitySocialConnect
-                options={options}
+        <div style={{ paddingLeft: isLogin ? "1400px": "750px", paddingTop: isLogin ? "20px": "400px" }}>
+            <PluralitySocialConnect 
+                options={options}                 
                 onDataReturned={handleDataReturned}
             />
+            </div>
             <div style={{
-                width: '180px',
+                width: '400px',
                 display: "flex",
                 flexDirection: "column",
                 gap: "8px",
-                marginTop: "30px"
+                marginTop: "0px"
             }}>
-                <button onClick={() => getAllAccountsData()}>Get All Accounts</button>
-                <button onClick={() => getConnectedAccountData()}>Get Connected Account</button>
-                <button onClick={() => getMessageSignatureData("Example `personal_sign` message.")}>Sign Message</button>
-                <button onClick={() => getVerifyMessageData("Example `personal_sign` message.", "0x4b0a58d64ef2a4a5b6f60cf0b5f7decfec842e1bca35fba261660770d997297a66dad78ba2b2bd273f7de8130178bc93ddd44be3bafe1a94a8fd81a16a89cb0e1c")}>Verify Message</button>
-                <button onClick={() => loadPublicData()}>Get Public Data</button>
-                <button onClick={() => storePublicData()}>Set Public Data</button>
-                <button onClick={() => loadPrivateData()}>Get Private Data</button>
-                <button onClick={() => storePrivateData()}>Set Private Data</button>
-                <button onClick={() => fetchLoginInfo()}>Get Login Info</button>
-                <button onClick={() => updateConsent()}>Update Consent</button>
-                <button onClick={() => fetchSmartProfileData()}>Get Smart Profile Data</button>
+                {isLogin && (
+                    <div>
+                
+                <h1> Wallet SDK Functions </h1>
+                <button onClick={() => getAllAccounts()}>Get All Accounts</button> 
+                &nbsp;
+                <button onClick={() => getConnectedAccount()}>Get Connected Account</button> 
+                &nbsp;                 
+                <button onClick={() => getMessageSignature("Example `personal_sign` message.")}>Sign Message</button> 
+                &nbsp;
+                <button onClick={() => getVerifyMessageData("Example `personal_sign` message.", "0x8e2eeb0a7fe472bcd9751e2a8f27b60050c98a3140c07679bd1a00082de1fce86c9dbaad511503e1c4b2e9f57f7ddf971865eb9f177387879417ef0776c02cf41b")}>Verify Message</button>
+                &nbsp;
                 <button onClick={() => getBalanceData("https://ethereum-sepolia.rpc.subquery.network/public", "11155111")}>Get Balance</button>
-                {/* <button onClick={() => fetchBlockNumber("https://ethereum-sepolia.rpc.subquery.network/public", "11155111")}>Get Block Number</button> */}
+                &nbsp;
                 <button onClick={() => sendTransactionData(rawTx, "https://ethereum-sepolia.rpc.subquery.network/public", "11155111")}>Send Transaction</button>
+                &nbsp;
                 <button onClick={() => fetchTransactionCount("0xe613B4cd69Fe20E8bd0F0D79a264210886bA1AA2", "https://ethereum-sepolia.rpc.subquery.network/public", "11155111")}>Get Transaction count</button>
+                &nbsp;
                 <button onClick={() => readFromContractData("0x8E26aa0b6c7A396C92237C6a87cCD6271F67f937", abi, "retrieve", "", "https://ethereum-sepolia.rpc.subquery.network/public", "11155111")}>Read Contract</button>
+                &nbsp;
                 <button onClick={() => writeToContractData("0x8E26aa0b6c7A396C92237C6a87cCD6271F67f937", abi, "store", txParams, "https://ethereum-sepolia.rpc.subquery.network/public", "11155111", txOptions)}>Write Contract</button>
-                {/* <button onClick={() => switchNetwork( "https://ethereum-sepolia.rpc.subquery.network/public", "11155111")}>Switch to Sepolia</button>
-                <button onClick={() => fetchNetwork()}>Fetch the current network</button> */}
+                <hr></hr>
+                <h1>Profile SDK Functions</h1>
+                <button onClick={() => storePublicData()}>Set Public Metadata</button>
+                &nbsp;
+                <button onClick={() => loadPublicData()}>Get Public Metadata</button>
+                &nbsp;
+                <button onClick={() => storePrivateData()}>Set Private Metadata</button>
+                &nbsp;
+                <button onClick={() => loadPrivateData()}>Get Private Metadata</button>
+                &nbsp;
+                <button onClick={() => fetchLoginInfo()}>Get Login Info</button>
+                &nbsp;
+                <button onClick={() => updateConsent()}>Update Consent</button>
+                &nbsp;
+                <button onClick={() => fetchSmartProfileData()}>Get Smart Profile Data</button>
+                </div>
+                )}
             </div>
-            {/* <input onChange={(e)=>{}}/> */}
         </div>
     )
 }
