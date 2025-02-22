@@ -11,11 +11,13 @@ import {
             SendTransactionDataType, 
             WriteToContractDataType 
         } from '@plurality-network/smart-profile-wallet';
+import { useState } from 'react';
 
 const App = () => {
+    const [isLogin, setLogin] = useState(false);
 
     // options for the embedded profiles wallet
-    const options = { clientId: '', theme: 'light', text: 'Login' };
+    const options = { clientId: '6ea8bf02-ea37-403f-b74c-f117fd3bc0a1', theme: 'light', text: 'Login' };
     
     const abi = '[{"inputs":[],"name":"retrieve","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"num","type":"uint256"}],"name":"store","outputs":[],"stateMutability":"nonpayable","type":"function"}]';
     const rawTx = JSON.stringify({
@@ -182,53 +184,68 @@ const App = () => {
     const handleDataReturned = (data: any) => {
         const receivedData = JSON.parse(JSON.stringify(data))
         console.log("Login info callback data (Inisde dApp)::", receivedData);
+        setLogin( true );
     };
 
 
     return (
 
-        <div style={{
-            padding: "10px"
-        }}>
+        <div style={{ 
+            height: "100vh", /* Full viewport height */
+            width: "100vw" /* Full viewport width */
+            }}>
+        <div style={{ 
+                    display: "flex",
+                    justifyContent: "right", /* Centers horizontally */
+                    padding: "20px",
+                    }}>
             <PluralitySocialConnect 
                 options={options}                 
                 onDataReturned={handleDataReturned}
-                customization={{
-                    backgroundColor: '#8002FF',
-                    color: 'white',
-                    minWidth: '180px',
-                    height: '50px',
-                    borderRadius: '5',
-                    hoverBackgroundColor: '#00CEBA',
-                    hoverTextColor: 'black',
-                    marginTop: '10px',
-                    fontSize: '20px',
-                    fontFamily: 'cursive',
-                }}
             />
+            </div>
             <div style={{
-                width: '200px',
-                display: "flex",
-                flexDirection: "column",
+                padding: "20px",
                 gap: "8px",
-                marginTop: "0px"
             }}>
-                <button onClick={() => getAllAccounts()}>Get All Accounts</button>
-                <button onClick={() => getConnectedAccount()}>Get Connected Account</button>
-                <button onClick={() => getMessageSignature("Example `personal_sign` message.")}>Sign Message</button>
+                {isLogin && (
+                    <div>
+                
+                <h1> Wallet SDK Functions </h1>
+                <button onClick={() => getAllAccounts()}>Get All Accounts</button> 
+                &nbsp;
+                <button onClick={() => getConnectedAccount()}>Get Connected Account</button> 
+                &nbsp;                 
+                <button onClick={() => getMessageSignature("Example `personal_sign` message.")}>Sign Message</button> 
+                &nbsp;
                 <button onClick={() => getVerifyMessageData("Example `personal_sign` message.", "0x8e2eeb0a7fe472bcd9751e2a8f27b60050c98a3140c07679bd1a00082de1fce86c9dbaad511503e1c4b2e9f57f7ddf971865eb9f177387879417ef0776c02cf41b")}>Verify Message</button>
+                &nbsp;
                 <button onClick={() => getBalanceData("https://ethereum-sepolia.rpc.subquery.network/public", "11155111")}>Get Balance</button>
+                &nbsp;
                 <button onClick={() => sendTransactionData(rawTx, "https://ethereum-sepolia.rpc.subquery.network/public", "11155111")}>Send Transaction</button>
+                &nbsp;
                 <button onClick={() => fetchTransactionCount("0xe613B4cd69Fe20E8bd0F0D79a264210886bA1AA2", "https://ethereum-sepolia.rpc.subquery.network/public", "11155111")}>Get Transaction count</button>
+                &nbsp;
                 <button onClick={() => readFromContractData("0x8E26aa0b6c7A396C92237C6a87cCD6271F67f937", abi, "retrieve", "", "https://ethereum-sepolia.rpc.subquery.network/public", "11155111")}>Read Contract</button>
+                &nbsp;
                 <button onClick={() => writeToContractData("0x8E26aa0b6c7A396C92237C6a87cCD6271F67f937", abi, "store", txParams, "https://ethereum-sepolia.rpc.subquery.network/public", "11155111", txOptions)}>Write Contract</button>
-                <button onClick={() => storePublicData()}>Set Public Data</button>
-                <button onClick={() => loadPublicData()}>Get Public Data</button>
-                <button onClick={() => storePrivateData()}>Set Private Data</button>
-                <button onClick={() => loadPrivateData()}>Get Private Data</button>
+                <hr></hr>
+                <h1>Profile SDK Functions</h1>
+                <button onClick={() => storePublicData()}>Set Public Metadata</button>
+                &nbsp;
+                <button onClick={() => loadPublicData()}>Get Public Metadata</button>
+                &nbsp;
+                <button onClick={() => storePrivateData()}>Set Private Metadata</button>
+                &nbsp;
+                <button onClick={() => loadPrivateData()}>Get Private Metadata</button>
+                &nbsp;
                 <button onClick={() => fetchLoginInfo()}>Get Login Info</button>
+                &nbsp;
                 <button onClick={() => updateConsent()}>Update Consent</button>
+                &nbsp;
                 <button onClick={() => fetchSmartProfileData()}>Get Smart Profile Data</button>
+                </div>
+                )}
             </div>
         </div>
     )
