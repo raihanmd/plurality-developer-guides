@@ -190,21 +190,23 @@ const App = () => {
 
     return (
 
-        <div style={{
-            paddingLeft: "10px"
-        }}>
-        <div style={{ paddingLeft: isLogin ? "1400px": "750px"}}>
+        <div style={{ 
+            height: "100vh", /* Full viewport height */
+            width: "100vw" /* Full viewport width */
+            }}>
+        <div style={{ 
+                    display: "flex",
+                    justifyContent: "right", /* Centers horizontally */
+                    padding: "20px",
+                    }}>
             <PluralitySocialConnect 
                 options={options}                 
                 onDataReturned={handleDataReturned}
             />
             </div>
             <div style={{
-                width: '400px',
-                display: "flex",
-                flexDirection: "column",
+                padding: "20px",
                 gap: "8px",
-                marginTop: "0px"
             }}>
                 {isLogin && (
                     <div>

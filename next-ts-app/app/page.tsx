@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { PluralitySocialConnect } from '@plurality-network/smart-profile-wallet'
+import { GetBalanceDataType, GetBlockNumberDataType, GetTransactionCountDataType, PluralitySocialConnect, ReadFromContractDataType, SendTransactionDataType, WriteToContractDataType } from '@plurality-network/smart-profile-wallet'
 import { AllAccountsDataType, ConnectedAccountDataType, SignMessageDataType, VerifySignedMessageDataType } from '@plurality-network/smart-profile-wallet'
 import { useState } from 'react';
 
@@ -9,7 +9,7 @@ const Home = () => {
     const [isLogin, setLogin] = useState(false);
     const options = { clientId: '', theme: 'light' };
 
-    const getAllAccountsData = async () => {
+    const getAllAccounts = async () => {
         const response = (await PluralitySocialConnect.getAllAccounts()) as AllAccountsDataType;
         if (response) {
             const allAccounts = response.data;
@@ -18,7 +18,7 @@ const Home = () => {
         }
     }
 
-    const getConnectedAccountData = async () => {
+    const getConnectedAccount = async () => {
         const response = (await PluralitySocialConnect.getConnectedAccount()) as ConnectedAccountDataType;
         if (response) {
             const connectedAccount = response.data;
@@ -27,7 +27,7 @@ const Home = () => {
         }
     }
 
-    const getMessageSignatureData = async (message: string) => {
+    const getMessageSignature = async (message: string) => {
         const response = (await PluralitySocialConnect.getMessageSignature(message)) as SignMessageDataType;
         if (response) {
             const signMessage = response.data;
@@ -113,7 +113,7 @@ const Home = () => {
         }
     }
 
-    const handleDataReturned = (data) => {
+    const handleDataReturned = (data: any) => {
         const receivedData = JSON.parse(JSON.stringify(data))
         console.log("Login info callback data (Inisde dApp)::", receivedData);
         setLogin( true );
@@ -190,26 +190,29 @@ const Home = () => {
 
     return (
 
-        <div style={{
-            paddingLeft: "10px",
-        }}>
-        <div style={{ paddingLeft: isLogin ? "1400px": "750px", paddingTop: isLogin ? "20px": "400px" }}>
+        <div style={{ 
+            height: "100vh", /* Full viewport height */
+            width: "100vw" /* Full viewport width */
+            }}>
+        <div style={{ 
+                    display: "flex",
+                    justifyContent: "right", /* Centers horizontally */
+                    padding: "20px",
+                    }}>
             <PluralitySocialConnect 
                 options={options}                 
                 onDataReturned={handleDataReturned}
             />
             </div>
             <div style={{
-                width: '400px',
-                display: "flex",
-                flexDirection: "column",
+                padding: "20px",
                 gap: "8px",
-                marginTop: "0px"
             }}>
                 {isLogin && (
                     <div>
                 
                 <h1> Wallet SDK Functions </h1>
+                <br/>
                 <button onClick={() => getAllAccounts()}>Get All Accounts</button> 
                 &nbsp;
                 <button onClick={() => getConnectedAccount()}>Get Connected Account</button> 
@@ -228,7 +231,9 @@ const Home = () => {
                 &nbsp;
                 <button onClick={() => writeToContractData("0x8E26aa0b6c7A396C92237C6a87cCD6271F67f937", abi, "store", txParams, "https://ethereum-sepolia.rpc.subquery.network/public", "11155111", txOptions)}>Write Contract</button>
                 <hr></hr>
+                <br/>
                 <h1>Profile SDK Functions</h1>
+                <br/>
                 <button onClick={() => storePublicData()}>Set Public Metadata</button>
                 &nbsp;
                 <button onClick={() => loadPublicData()}>Get Public Metadata</button>
