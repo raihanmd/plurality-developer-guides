@@ -1,6 +1,6 @@
 # developer-guides
 
-This repository contains basic demo projects built in react and vite that can be used as boilerplate to start your application.
+This repository contains basic demo projects built in  html/js, framer, react, next vite that can be used as boilerplate to start your application.
 
 The projects contain the following functionalities:
 
